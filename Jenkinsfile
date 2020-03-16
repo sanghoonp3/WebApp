@@ -31,14 +31,32 @@ node {
     }
     */
 	
- {				//indicate the job is written in Declarative Pipeline
-    agent any				//agent specifies where the pipeline will execute. 
-    stages {
-        stage ("build") {		//an arbitrary stage name
-            steps {
-                build 'Pipeline_B'	//this is where we specify which job to invoke.
+ stage('')
+	{
+		when
+		{
+			branch 'master'
+		}
+		steps 
+		{
+			withSonarQubeEnv('SonarQube') { 
+         		bat 'mvn sonar:sonar'
+         		}
+		}
+	}
+stage("SonarQube Quality Gate") { 
+      when {
+                branch 'master'
             }
+      steps {
+        timeout(time: 10, unit: 'MINUTES') { 
+        script {
+            sleep 120
+           def qg = waitForQualityGate() 
+           if (qg.status != 'OK') {
+             error "Pipeline aborted due to quality gate failure: ${qg.status}"
+           }
+           }
         }
-    }
 }
 	 

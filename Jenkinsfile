@@ -30,13 +30,8 @@ node {
     */
 	
 	stage('Build') {
-		post
-		{
-			always
-			{
-				jiraSendBuildInfo site: 'devops.atlassian.net'
-			}
-		}
+		jiraSendBuildInfo site: 'devops.atlassian.net'
+
 	}
 }
 	 

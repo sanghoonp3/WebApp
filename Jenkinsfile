@@ -30,9 +30,6 @@ node {
     */
 	
 	stage('Build') {
-		steps {
-			echo 'Building...'
-		}
 		post
 		{
 			always

@@ -1,5 +1,6 @@
 
 node {
+/*
     // Get Artifactory server instance, defined in the Artifactory Plugin administration page.
     def server = Artifactory.server "spdevops"
     // Create an Artifactory Maven instance.
@@ -11,6 +12,7 @@ node {
     stage('Clone sources') {
         git url: 'https://github.com/sanghoonp3/webapp.git'
     }
+    */
     /*
     stage('Artifactory configuration') {
         // Tool name from Jenkins configuration
@@ -29,9 +31,14 @@ node {
     }
     */
 	
-	stage('Build') {
-		jiraSendBuildInfo site: 'devops.atlassian.net'
-
-	}
+ {				//indicate the job is written in Declarative Pipeline
+    agent any				//agent specifies where the pipeline will execute. 
+    stages {
+        stage ("build") {		//an arbitrary stage name
+            steps {
+                build 'Pipeline_B'	//this is where we specify which job to invoke.
+            }
+        }
+    }
 }
 	 

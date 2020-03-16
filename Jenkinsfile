@@ -37,7 +37,7 @@ node {
 		{
 			always
 			{
-				jiraSendBuildInfo site: 'devopsILP.atlassian.net'
+				jiraSendBuildInfo site: 'devops.atlassian.net'
 			}
 		}
 	}

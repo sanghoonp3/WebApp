@@ -1,6 +1,6 @@
 
 node {
-/*
+	/*
     // Get Artifactory server instance, defined in the Artifactory Plugin administration page.
     def server = Artifactory.server "spdevops"
     // Create an Artifactory Maven instance.
@@ -12,8 +12,7 @@ node {
     stage('Clone sources') {
         git url: 'https://github.com/sanghoonp3/webapp.git'
     }
-    */
-    /*
+
     stage('Artifactory configuration') {
         // Tool name from Jenkins configuration
         rtMaven.tool = "maven"
@@ -21,42 +20,14 @@ node {
         rtMaven.deployer releaseRepo:'libs-release-local', snapshotRepo:'libs-snapshot-local', server: server
         rtMaven.resolver releaseRepo:'libs-release', snapshotRepo:'libs-snapshot', server: server
     }
-
-    stage('Maven build') {
+    stage('Maven build')
+    {
         buildInfo = rtMaven.run pom: 'pom.xml', goals: 'clean install'
     }
-
-    stage('Publish build info') {
-        server.publishBuildInfo buildInfo
-    }
-    */
-	
- stage('test')
+	*/
+	stage('App-Build')
 	{
-		when
-		{
-			branch 'master'
-		}
-		steps 
-		{
-			withSonarQubeEnv('SonarQube') { 
-         		bat 'mvn sonar:sonar'
-         		}
-		}
+		def job = build job: 'App-Build'
 	}
-stage("SonarQube Quality Gate") { 
-      when {
-                branch 'master'
-            }
-      steps {
-        timeout(time: 10, unit: 'MINUTES') { 
-        script {
-            sleep 120
-           def qg = waitForQualityGate() 
-           if (qg.status != 'OK') {
-             error "Pipeline aborted due to quality gate failure: ${qg.status}"
-           }
-           }
-        }
 }
 	 

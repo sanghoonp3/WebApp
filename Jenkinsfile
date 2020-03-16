@@ -6,12 +6,12 @@ node {
     def rtMaven = Artifactory.newMavenBuild()
     def buildInfo
     
- rtMaven.tool = "maven"
-
+    rtMaven.tool = "maven"
+    
     stage('Clone sources') {
         git url: 'https://github.com/sanghoonp3/webapp.git'
     }
-
+    /*
     stage('Artifactory configuration') {
         // Tool name from Jenkins configuration
         rtMaven.tool = "maven"
@@ -27,5 +27,19 @@ node {
     stage('Publish build info') {
         server.publishBuildInfo buildInfo
     }
-    }
+    */
+	
+	stage('Build') {
+		steps {
+			echo 'Building...'
+		}
+		post
+		{
+			always
+			{
+				jiraSendBuildInfo site: 'devopsILP.atlassian.net'
+			}
+		}
+	}
+}
 	 

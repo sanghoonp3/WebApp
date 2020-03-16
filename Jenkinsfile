@@ -31,7 +31,7 @@ node {
     }
     */
 	
- stage('')
+ stage('test')
 	{
 		when
 		{
